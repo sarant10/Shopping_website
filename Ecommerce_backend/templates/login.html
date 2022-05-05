@@ -8,7 +8,7 @@
       <h2>Log In</h2>
     </div>
     <div class="row">
-      <form method="post" action="login" class="contact-form">
+      <form method="post" class="contact-form">
         <div class="row">         
             <label for="email">Email</label>
             <input
@@ -16,6 +16,7 @@
               name="email"
               id="email"
               placeholder="Email"
+              value="{{ request.form['email'] }}"
               required
             />         
         </div>       
@@ -26,6 +27,7 @@
               name="password"
               id="password"
               placeholder="Password"
+              value="{{ request.form['password'] }}"
               required
             />          
         </div>

@@ -153,7 +153,7 @@ def login():
         password = request.form['password']
         if is_valid(email, password):
             session['email'] = email
-            return redirect(url_for('root'))
+            return render_template('index.html')
         else:
             error = 'Invalid userId / Password'
             return render_template('login.html', error=error)

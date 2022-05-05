@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <div class="signup">
-    <form action="" class="form">
+    <form method="/register" class="form">
       <h1 class="title">Sign up</h1>
 
       <div class="inputContainer">
@@ -11,6 +11,7 @@
           class="input"
           name="firstname"
           required
+          value="{{ request.form['firstName'] }}"
         />
         <label for="firstname" class="label"><b>Firstname</b></label>
       </div>
@@ -21,6 +22,7 @@
           placeholder="Enter Lastname"
           class="input"
           name="lastname"
+          value="{{ request.form['lastName'] }}"
           required
         />
         <label for="lastname" class="label"><b>Lastname</b></label>
@@ -32,6 +34,7 @@
           placeholder="Enter Email"
           class="input"
           name="email"
+          value="{{ request.form['email'] }}"
           required
         />
         <label for="email" class="label"><b>Email</b></label>
@@ -43,6 +46,7 @@
           placeholder="Enter Address1"
           class="input"
           name="address1"
+          value="{{ request.form['address1'] }}"
           required
         />
         <label for="address1" class="label"><b>Address1</b></label>
@@ -54,6 +58,7 @@
           placeholder="Enter Address2"
           class="input"
           name="address2"
+          value="{{ request.form['address2'] }}"
           required
         />
         <label for="address2" class="label"><b>Address2</b></label>
@@ -65,6 +70,7 @@
           placeholder="Enter Zipcode"
           class="input"
           name="zipcode"
+          value="{{ request.form['zipcode'] }}"
           required
         />
         <label for="zipcode" class="label"><b>Zipcode</b></label>
@@ -76,6 +82,7 @@
           placeholder="Enter City"
           class="input"
           name="city"
+          value="{{ request.form['city'] }}"
           required
         />
         <label for="city" class="label"><b>City</b></label>
@@ -87,6 +94,7 @@
           placeholder="Enter State"
           class="input"
           name="state"
+          value="{{ request.form['state'] }}"
           required
         />
         <label for="state" class="label"><b>State</b></label>
@@ -98,6 +106,7 @@
           placeholder="Enter Country"
           class="input"
           name="country"
+          value="{{ request.form['country'] }}"
           required
         />
         <label for="country" class="label"><b>Country</b></label>
@@ -109,6 +118,7 @@
           placeholder="Enter Phone"
           class="input"
           name="phone"
+          value="{{ request.form['phone'] }}"
           required
         />
         <label for="phone" class="label"><b>Phone</b></label>
@@ -120,6 +130,7 @@
           placeholder="Enter Password"
           class="input"
           name="psw"
+          value="{{ request.form['password'] }}"
           required
         />
         <label for="psw" class="label"><b>Password</b></label>
