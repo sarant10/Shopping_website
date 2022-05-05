@@ -24,17 +24,21 @@ def getLoginDetails():
     conn.close()
     return (loggedIn, firstName, noOfItems)
 
-@app.route("/")
-def root():
-    loggedIn, firstName, noOfItems = getLoginDetails()
-    with sqlite3.connect('storage.db') as conn:
-        cur = conn.cursor()
-        cur.execute('SELECT productId, name, price, description, image, stock FROM products')
-        itemData = cur.fetchall()
-        cur.execute('SELECT categoryId, name FROM categories')
-        categoryData = cur.fetchall()
-    itemData = parse(itemData)   
-    return render_template('Product_home.html', itemData=itemData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryData=categoryData)
+@app.route('/')
+def index():
+    return render_template("index.html")
+
+#@app.route("/signedIn")
+# def root():
+#    loggedIn, firstName, noOfItems = getLoginDetails()
+#    with sqlite3.connect('storage.db') as conn:
+#        cur = conn.cursor()
+#        cur.execute('SELECT productId, name, price, description, image, stock FROM products')
+#        itemData = cur.fetchall()
+#        cur.execute('SELECT categoryId, name FROM categories')
+#        categoryData = cur.fetchall()
+#    itemData = parse(itemData)   
+#    return render_template('Product_home.html', itemData=itemData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, #categoryData=categoryData)
 
 @app.route("/add")
 def admin():
@@ -152,7 +156,7 @@ def login():
             return redirect(url_for('root'))
         else:
             error = 'Invalid userId / Password'
-            return render_template('Product_login.html', error=error)
+            return render_template('login.html', error=error)
 
 @app.route("/productDescription")
 def productDescription():
@@ -269,7 +273,7 @@ def register():
 
 @app.route("/registerationForm")
 def registrationForm():
-    return render_template("Product_register.html")
+    return render_template("register.html")
 
 def allowed_file(filename):
     return '.' in filename and \

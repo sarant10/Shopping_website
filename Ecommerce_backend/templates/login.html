@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  {% include 'navbar.html' %}
+
+    <div class="row">
+      <h2>Log In</h2>
+    </div>
+    <div class="row">
+      <form method="post" action="login" class="contact-form">
+        <div class="row">         
+            <label for="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Email"
+              required
+            />         
+        </div>       
+          <div>
+            <label for="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+              required
+            />          
+        </div>
+          <div class="col span-2-of-2"></div>
+            <input type="submit" value="Log In" />
+            <a href="/registerationForm">Register!</a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+{% endblock %}
