@@ -1,0 +1,487 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <title>Ecommerce</title>
+  </head>
+  <body>
+    <header>
+      {% include 'navbar.html' %}
+    
+    <body>
+      <div class="hero-text-box">
+        <h1>Small companies.<br />Big storefronts.</h1>
+        <a class="btn btn-full js--scroll-to-plans" href="#">Let's shop!</a>
+        <a class="btn btn-ghost js--scroll-to-start" href="#">Show me more</a>
+      </div>
+    </header>
+      <section class="section-features js--section-features" id="features">
+        <div class="row">
+          <h2>Shop anywhere and everywhere &mdash; not just a single place</h2>
+          <p class="long-copy">
+            Hello, we're ecommerce, your new shop for all things small companies
+            provide. We know you're always looking for specific and niche items.
+            No time for browsing. So let us take care of that, we're really good
+            at it, we promise!
+          </p>
+        </div>
+
+        <div class="row js--wp-1">
+          <div class="col span-1-of-4 box">
+            <i class="ion-paper-airplane icon-big"></i>
+            <h3>Quick delivery</h3>
+            <p>
+              Never worry about delivery times again! We really mean that. Our
+              stores all have delivery times between 2 and 5 business working
+              days. You can also choose to order more flexibly if that's your
+              style.
+            </p>
+          </div>
+          <div class="col span-1-of-4 box">
+            <i class="ion-cash icon-big"></i>
+            <h3>Cheap Prices</h3>
+            <p>
+              No big stores means no big prices. Here you won't have to worry
+              about overpaying for products at all! Everything is sold at
+              reasonable prices just for you!
+            </p>
+          </div>
+          <div class="col span-1-of-4 box">
+            <i class="ion-pricetags icon-big"></i>
+            <h3>100% satisfaction</h3>
+            <p>
+              All our stores are small/medium in size. This means customers are
+              treated with the utmost care. Good for you and good for the stores
+              aso it's a win win!
+            </p>
+          </div>
+          <div class="col span-1-of-4 box">
+            <i class="ion-ios-cart icon-big"></i>
+            <h3>Order anything</h3>
+            <p>
+              We don't limit our stores, which means they can sell whatever they
+              like. You can also search for a specific item that you want. It's
+              up to you!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-meals">
+        <ul class="meals-showcase clearfix">
+          <li>
+            
+            <figure class="meal-photo">
+              <img
+                src="{{ url_for('static', filename='resources/img/1.jpg') }}"
+                alt="storefront"
+              />
+            </figure>
+          </li>
+          <li>
+            <figure class="meal-photo">
+              <img
+                src="{{ url_for('static', filename='resources/img/2.png') }}"
+                alt="storefront2"
+              />
+            </figure>
+          </li>
+          <li>
+            <figure class="meal-photo">
+              <img
+                src="{{ url_for('static', filename='resources/img/three.png') }}"
+                alt="storefront"
+              />
+            </figure>
+          </li>
+          <li>
+            <figure class="meal-photo">
+              <img
+                src="{{ url_for('static', filename='resources/img/four.jpg') }}"
+                alt="storefront4"
+              />
+            </figure>
+          </li>
+        </ul>
+        <ul class="meals-showcase clearfix">
+          <li>
+            <figure class="meal-photo">
+              <img
+                src="{{ url_for('static', filename='resources/img/5.jpg') }}"
+                alt="storefront"
+              />
+            </figure>
+          </li>
+          <li>
+            <figure class="meal-photo">
+              <img
+                src="{{ url_for('static', filename='resources/img/six.jpg') }}"
+                alt="storefront"
+              />
+            </figure>
+          </li>
+          <li>
+            <figure class="meal-photo">
+              <img
+                src="{{ url_for('static', filename='resources/img/7.png') }}"
+                alt="storefront"
+              />
+            </figure>
+          </li>
+          <li>
+            <figure class="meal-photo">
+              <img
+                src="{{ url_for('static', filename='resources/img/eight.png') }}"
+                alt="storefront"
+              />
+            </figure>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section-steps" id="works">
+        <div class="row">
+          <h2>How it works &mdash; Simple as 1, 2, 3</h2>
+        </div>
+        <div class="row">
+          <!--
+          <div class="col span-1-of-2 steps-box">
+            <img
+              src="{{ url_for('static', filename='resources/img/logo.jpg') }}"
+              alt="store"
+              class="store js--wp-2"
+            />
+          </div>
+        -->
+          <div class="col span-1-of-1 steps-box">
+            <div class="works-step clearfix">
+              <div>1</div>
+              <p>
+                Browse the wide variety of stores available to find the perfect
+                items for your needs!
+              </p>
+            </div>
+            <div class="works-step clearfix">
+              <div>2</div>
+              <p>
+                Add all the items you want to your basket whilst you keep
+                browsing for other items.
+              </p>
+            </div>
+            <div class="works-step clearfix">
+              <div>3</div>
+              <p>
+                Order your items using our website. Enjoy your items only 2-5
+                days later! See you the next time!
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-areas" id="areas">
+        <div class="row">
+          <h2>We're currently in these areas</h2>
+        </div>
+        <div class="row js--wp-3">
+          <div class="col span-1-of-4 box">
+            <img
+              src="{{ url_for('static', filename='resources/img/guildford.jpg') }}"
+              alt="Guildford"
+            />
+            <h3>Guildford</h3>
+            <div class="area-feature">
+              <i class="ion-ios-person icon-small"></i>
+              1600+ happy shoppers
+            </div>
+            <div class="area-feature">
+              <i class="ion-ios-star icon-small"></i>
+              20+ top stores
+            </div>
+            <div class="area-feature">
+              <i class="ion-social-twitter icon-small"></i>
+              <a href="#">@ecommerce_gu</a>
+            </div>
+          </div>
+          <div class="col span-1-of-4 box">
+            <img
+              src="{{ url_for('static', filename='resources/img/Manchester.jpg') }}"
+              alt="Manchester"
+            />
+            <h3>Manchester</h3>
+            <div class="city-feature">
+              <i class="ion-ios-person icon-small"></i>
+              3700+ happy shoppers
+            </div>
+            <div class="city-feature">
+              <i class="ion-ios-star icon-small"></i>
+              160+ top stores
+            </div>
+            <div class="city-feature">
+              <i class="ion-social-twitter icon-small"></i>
+              <a href="#">@ecommerce_man</a>
+            </div>
+          </div>
+          <div class="col span-1-of-4 box">
+            <img
+              src="{{ url_for('static', filename='resources/img/Birmingham.jpg') }}"
+              alt="Birmingham"
+            />
+            <h3>Birmingham</h3>
+            <div class="city-feature">
+              <i class="ion-ios-person icon-small"></i>
+              2300+ happy shoppers
+            </div>
+            <div class="city-feature">
+              <i class="ion-ios-star icon-small"></i>
+              110+ top stores
+            </div>
+            <div class="city-feature">
+              <i class="ion-social-twitter icon-small"></i>
+              <a href="#">@ecommerce_bm</a>
+            </div>
+          </div>
+          <div class="col span-1-of-4 box">
+            <img
+              src="{{ url_for('static', filename='resources/img/london.jpg') }}"
+              alt="London"
+            />
+            <h3>London</h3>
+            <div class="city-feature">
+              <i class="ion-ios-person icon-small"></i>
+              1200+ happy eaters
+            </div>
+            <div class="city-feature">
+              <i class="ion-ios-star icon-small"></i>
+              50+ top chefs
+            </div>
+            <div class="city-feature">
+              <i class="ion-social-twitter icon-small"></i>
+              <a href="#">@ecommerce_london</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-testimonials">
+        <div class="row">
+          <h2>Our customers can't live without us</h2>
+        </div>
+        <div class="row">
+          <div class="col span-1-of-3">
+            <blockquote>
+              Ecommerce is just awesome! I just launched a startup and was
+              struggling to sell my products, so Ecommerce is a life-saver. Now
+              that I get sales often, I can't live without it! Small companies
+              this site is the go to!
+              <cite
+                ><img
+                  src="{{ url_for('static', filename='resources/img/customer-1.jpg') }}"
+                />Alberto Duncan</cite
+              >
+            </blockquote>
+          </div>
+          <div class="col span-1-of-3">
+            <blockquote>
+              Inexpensive, unique and high-qaulity items, delivered right to my
+              home. We have lots of stores here in Guildford, but no one comes
+              even close to the ones on Ecommerce. Me and my family are so in
+              love!
+              <cite
+                ><img
+                  src="{{ url_for('static', filename='resources/img/customer-2.jpg') }}"
+                />Joana Silva</cite
+              >
+            </blockquote>
+          </div>
+          <div class="col span-1-of-3">
+            <blockquote>
+              I was looking for a quick and easy online shopping service in
+              Birmingham. I tried a lot of them and ended up with Ecommerce.
+              Best online service in the Birmingham. Keep up the great work!
+              <cite
+                ><img
+                  src="{{ url_for('static', filename='resources/img/customer-3.jpg') }}"
+                />Milton Chapman</cite
+              >
+            </blockquote>
+          </div>
+        </div>
+      </section>
+      <!--
+      <section class="section-plans js--section-plans" id="plans">
+        <div class="row">
+          <h2>Start online shopping today</h2>
+        </div>
+        <div class="row">
+          <div class="col span-1-of-3">
+            <div class="plan-box js--wp-4">
+              <div>
+                <h3>Premium</h3>
+                <p class="plan-price">$399 <span>/ month</span></p>
+                <p class="plan-price-meal">That's only 13.30$ per meal</p>
+              </div>
+              <div>
+                <ul>
+                  <li>
+                    <i class="ion-ios-checkmark-empty icon-small"></i>1 meal
+                    every day
+                  </li>
+                  <li>
+                    <i class="ion-ios-checkmark-empty icon-small"></i>Order 24/7
+                  </li>
+                  <li>
+                    <i class="ion-ios-checkmark-empty icon-small"></i>Access to
+                    newest creations
+                  </li>
+                  <li>
+                    <i class="ion-ios-checkmark-empty icon-small"></i>Free
+                    delivery
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <a href="#" class="btn btn-full">Sign up now</a>
+              </div>
+            </div>
+          </div>
+          <div class="col span-1-of-3">
+            <div class="plan-box">
+              <div>
+                <h3>Pro</h3>
+                <p class="plan-price">$149 <span>/ month</span></p>
+                <p class="plan-price-meal">That's only 14.90$ per meal</p>
+              </div>
+              <div>
+                <ul>
+                  <li>
+                    <i class="ion-ios-checkmark-empty icon-small"></i>1 meal 10
+                    days/month
+                  </li>
+                  <li>
+                    <i class="ion-ios-checkmark-empty icon-small"></i>Order 24/7
+                  </li>
+                  <li>
+                    <i class="ion-ios-checkmark-empty icon-small"></i>Access to
+                    newest creations
+                  </li>
+                  <li>
+                    <i class="ion-ios-checkmark-empty icon-small"></i>Free
+                    delivery
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <a href="#" class="btn btn-ghost">Sign up now</a>
+              </div>
+            </div>
+          </div>
+          <div class="col span-1-of-3">
+            <div class="plan-box">
+              <div>
+                <h3>Starter</h3>
+                <p class="plan-price">19$ <span>/ meal</span></p>
+                <p class="plan-price-meal">&nbsp;</p>
+              </div>
+              <div>
+                <ul>
+                  <li>
+                    <i class="ion-ios-checkmark-empty icon-small"></i>1 meal
+                  </li>
+                  <li>
+                    <i class="ion-ios-checkmark-empty icon-small"></i>Order from
+                    8 am to 12 pm
+                  </li>
+                  <li><i class="ion-ios-close-empty icon-small"></i></li>
+                  <li>
+                    <i class="ion-ios-checkmark-empty icon-small"></i>Free
+                    delivery
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <a href="#" class="btn btn-ghost">Sign up now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    -->
+      <section class="section-form">
+        <div class="row">
+          <h2>We're happy to hear from you</h2>
+        </div>
+        <div class="row">
+          <form method="post" action="#" class="contact-form">
+            <div class="row">
+              <div class="col span-1-of-3">
+                <label for="name">Name</label>
+              </div>
+              <div class="col span-2-of-3">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  placeholder="Your name"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col span-1-of-3">
+                <label for="email">Email</label>
+              </div>
+              <div class="col span-2-of-3">
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Your email"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col span-1-of-3">
+                <label for="find-us">How did you find us?</label>
+              </div>
+              <div class="col span-2-of-3">
+                <select name="find-us" id="find-us">
+                  <option value="friends" selected>Friends</option>
+                  <option value="search">Search engine</option>
+                  <option value="ad">Advertisement</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col span-1-of-3">
+                <label>Newsletter?</label>
+              </div>
+              <div class="col span-2-of-3">
+                <input type="checkbox" name="news" id="news" checked /> Yes,
+                please
+              </div>
+            </div>
+            <div class="row">
+              <div class="col span-1-of-3">
+                <label>Drop us a line</label>
+              </div>
+              <div class="col span-2-of-3">
+                <textarea name="message" placeholder="Your message"></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col span-1-of-3">
+                <label>&nbsp;</label>
+              </div>
+              <div class="col span-2-of-3">
+                <input type="submit" value="Send it!" />
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </body>
+  </body>
+</html>
+{% endblock %}
