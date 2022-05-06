@@ -38,20 +38,268 @@
 	</div>
 </div>
 
-<div class="display">
-	<h2>Edit profile</h2>
-	<form action="/updateProfile" method="POST">
-		<p>Email:<input type="email" name="email" value={{profileData[1]}} readonly="readonly"></p>
-		<p>First Name:<input type="text" name="firstName" value={{profileData[2]}}></p>
-		<p>Last Name: <input type="text" name="lastName" value={{profileData[3]}}></p>
-		<p>Address 1: <input type="text" name="address1" value={{profileData[4]}}></p>
-		<p>Zip Code: <input type="text" name="zipcode" value={{profileData[6]}}></p>
-		<p>City: <input type="text" name="city" value={{profileData[7]}}></p>
-		<p>Country: <input type="text" name="country" value={{profileData[9]}}></p>
-		<p>Phone Number: <input type="text" name="phone" value={{profileData[10]}}></p>
-		<input type="submit" value="Save">
-	</form>
-</div>
+  <div class="display">
+    <form action="/updateProfile" method="Post">
+      <h1 class="title">Edit profile</h1>
+
+      <div class="inputContainer">
+        <input
+          type="text"
+          placeholder="Enter Firstname"
+          class="input"
+          name="firstname"
+          required
+          value="{{ profileData[2] }}"
+        />
+        <label for="firstname" class="label"><b>Firstname</b></label>
+      </div>
+
+      <div class="inputContainer">
+        <input
+          type="text"
+          placeholder="Enter Lastname"
+          class="input"
+          name="lastname"
+          value="{{ profileData[3] }}"
+          required
+        />
+        <label for="lastname" class="label"><b>Lastname</b></label>
+      </div>
+
+      <div class="inputContainer">
+        <input
+          type="text"
+          placeholder="Enter Email"
+          class="input"
+          name="email"
+          value="{{ profileData[1] }}"
+          required
+        />
+        <label for="email" class="label"><b>Email</b></label>
+      </div>
+
+      <div class="inputContainer">
+        <input
+          type="text"
+          placeholder="Enter Address1"
+          class="input"
+          name="address1"
+          value="{{ profileData[4] }}"
+          required
+        />
+        <label for="address1" class="label"><b>Address1</b></label>
+      </div>
+
+      <div class="inputContainer">
+        <input
+          type="text"
+          placeholder="Enter Address2"
+          class="input"
+          name="address2"
+          value="{{ request.form['address2'] }}"
+          required
+        />
+        <label for="address2" class="label"><b>Address2</b></label>
+      </div>
+
+      <div class="inputContainer">
+        <input
+          type="text"
+          placeholder="Enter Zipcode"
+          class="input"
+          name="zipcode"
+          value="{{ profileData[5] }}"
+          required
+        />
+        <label for="zipcode" class="label"><b>Zipcode</b></label>
+      </div>
+
+      <div class="inputContainer">
+        <input
+          type="text"
+          placeholder="Enter City"
+          class="input"
+          name="city"
+          value="{{ profileData[7] }}"
+          required
+        />
+        <label for="city" class="label"><b>City</b></label>
+      </div>
+
+      <div class="inputContainer">
+        <input
+          type="text"
+          placeholder="Enter State"
+          class="input"
+          name="state"
+          value="{{ profileData[8] }}"
+          required
+        />
+        <label for="state" class="label"><b>State</b></label>
+      </div>
+
+      <div class="inputContainer">
+        <input
+          type="text"
+          placeholder="Enter Country"
+          class="input"
+          name="country"
+          value="{{ profileData[9] }}"
+          required
+        />
+        <label for="country" class="label"><b>Country</b></label>
+      </div>
+
+      <div class="inputContainer">
+        <input
+          type="text"
+          placeholder="Enter Phone"
+          class="input"
+          name="phone"
+          value="{{ profileData[10] }}"
+          required
+        />
+        <label for="phone" class="label"><b>Phone</b></label>
+      </div>
+
+      <div class="inputContainer">
+        <input
+          type="password"
+          placeholder="Enter Password"
+          class="input"
+          name="psw"
+          value="{{ request.form['password'] }}"
+          required
+        />
+        <label for="psw" class="label"><b>Password</b></label>
+      </div>
+
+      <div class="inputContainer">
+        <input
+          type="password"
+          placeholder="Repeat Password"
+          class="input"
+          name="confirmpassword"
+          required
+        />
+        <label for="confirmpassword" class="label"
+          ><b>Confirm Password</b></label
+        >
+      </div>
+
+      <input type="submit" class="submitBtn" value="Save" />
+    </form>
+  </div>
+
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      background-color: white;
+      font-family: 'lato', sans-serif;
+    }
+
+    .display {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form {
+      background-color: white;
+      width: 400px;
+      border-radius: 8px;
+      padding: 20px 40px;
+      box-shadow: 0 10px 25px rgba(92, 99, 105, 0.2);
+    }
+
+    .title {
+	  margin-top: 100px;
+      font-size: 50px;
+      margin-bottom: 50px;
+    }
+
+    .inputContainer {
+      position: relative;
+      height: 45px;
+      width: 90%;
+      margin-bottom: 17px;
+    }
+
+    .input {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      height: 100%;
+      width: 100%;
+      border: 1px solid #dadce0;
+      border-radius: 7px;
+      font-size: 16px;
+      padding: 0 20px;
+      outline: none;
+      background: none;
+      z-index: 1;
+    }
+
+    ::placeholder {
+      color: transparent;
+    }
+
+    .label {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      padding: 0 4px;
+      background-color: white;
+      color: #dadce0;
+      font-size: 16px;
+      transition: 0.5s;
+      z-index: 0;
+    }
+
+    .submitBtn {
+      display: block;
+      margin-left: auto;
+      padding: 15px 30px;
+      border: none;
+      background-color: purple;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 30px;
+    }
+
+    .submitBtn:hover {
+      background-color: #9867c5;
+      transform: translateY(-2px);
+    }
+
+    .input:focus + .label {
+      top: -7px;
+      left: 3px;
+      z-index: 10;
+      font-size: 14px;
+      font-weight: 600;
+      color: purple;
+    }
+
+    .input:focus {
+      border: 2px solid purple;
+    }
+
+    .input:not(:placeholder-shown) + .label {
+      top: -7px;
+      left: 3px;
+      z-index: 10;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  </style>
+</html>
+
 </body>
 </html>
 
