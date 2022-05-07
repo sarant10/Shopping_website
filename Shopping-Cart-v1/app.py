@@ -6,13 +6,18 @@ import sqlite3
 import hashlib
 #importing_os
 import os
+from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
 #providing_pathfor_folderupload
 UPLOAD_FOLDER = 'static/uploads'
+#Add database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://jmfvxstgdknlvi:50c901dcf2ff6680298686d34fcfd357670093b152e0d9e9ccbc1e61626acf3b@ec2-54-158-247-210.compute-1.amazonaws.com:5432/df6tij44m4urqo'
 #Providing_randomstringfor_secretkey
 app.secret_key = 'random string'
+#Initialise The Database
+#db = SQLAlchemy(app)
 #imageformat_extensions
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'gif','jpeg'])
 #Appconfigurationfor_folderupload
