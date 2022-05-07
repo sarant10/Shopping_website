@@ -1,3 +1,4 @@
+import email
 from flask import *
 import sqlite3, hashlib, os
 #from werkzeug.utils import secure_filename
@@ -33,8 +34,11 @@ def root():
         itemData = data_cursor.fetchall()
         data_cursor.execute('SELECT Cat_Id, item_name FROM categories')
         categoryData = data_cursor.fetchall()
-    itemData = parse(itemData)   
-    return render_template('item_home.html', itemData=itemData, login_check=login_check, First_Name=First_Name, Item_quantity=Item_quantity, categoryData=categoryData)
+    itemData = parse(itemData)
+    if 'email_id' not in session:
+        return render_template('index.html')
+    else:
+        return render_template('item_home.html', itemData=itemData, login_check=login_check, First_Name=First_Name, Item_quantity=Item_quantity, categoryData=categoryData)
 
 @app.route("/add")
 def admin():

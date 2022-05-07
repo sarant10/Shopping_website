@@ -1,21 +1,57 @@
-<html>
-  <head>
-    <title>Shop cart</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-  <body>
-    <div class="container">
-      <h1>Please login</h1>
-      <br>
-	  <form action="/login" method="POST">
-		<p>email_id: <input type="text" name="email_id"></p>
-		<p>Password: <input type="password" name="password"></p>
-		<p><input type="submit"></p>
-		<a href="/registerationForm">New to application Register hear!</a>
-	   </form>
-      {% if error %}
-        <p class="error"><strong>Error:</strong> {{ error }}
-      {% endif %}
+{% extends 'base.html' %}
+
+{% block content %}
+
+  {% include 'navbar.html' %}
+
+    <div class="row">
+      <h2>Log In</h2>
     </div>
-  </body>
-</html>
+    <div class="row">
+      <form action="/login" method="post" class="contact-form">
+        <div>         
+            <label>Email</label>
+            <input
+              type="text"
+              name="email_id"
+              placeholder="Email"             
+              required
+            />         
+        </div>       
+          <div>
+            <label for="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />          
+        </div>
+          <div class="col span-2-of-2"></div>
+            <input type="submit" value="Log In" />
+            <a href="/registerationForm">Register!</a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+{% endblock %}

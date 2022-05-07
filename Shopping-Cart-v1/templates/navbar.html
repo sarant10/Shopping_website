@@ -1,0 +1,43 @@
+<nav>
+  <div class="row">
+    <a href="/">
+      <img
+        src="{{ url_for('static', filename='resources/img/logo1.png') }}"
+        alt="Ecommerce logo"
+        class="logo"
+    /></a>
+    <a href="/">
+      <img
+        src="{{ url_for('static', filename='resources/img/logo1.png') }}"
+        alt="Omnifood logo"
+        class="logo-black"
+    /></a>
+    {% if not login_check %}
+    <ul class="main-nav js--main-nav">
+      <li><a href="/loginForm">Login</a></li>
+      <li>
+        <a href="/registerationForm">Sign up</a>
+      </li>
+    </ul>
+    {% else %}
+    <ul class="main-nav js--main-nav">
+      <li>
+        <a href="/account/orders">Your orders</a>
+      </li>
+
+      <li>
+        <a href="/account/profile">Your profile</a>
+      </li>
+      <li>
+        <a href="/cart">Cart</a>
+      </li>
+      <li>
+        <a href="/logout">Sign Out</a>
+      </li>
+    </ul>
+    {% endif %}
+    <a class="mobile-nav-icon js--nav-icon"
+      ><i class="ion-navicon-round"></i>
+    </a>
+  </div>
+</nav>
