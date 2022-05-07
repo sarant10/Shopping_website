@@ -13,7 +13,7 @@ app = Flask(__name__)
 #providing_pathfor_folderupload
 UPLOAD_FOLDER = 'static/uploads'
 #Add database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://jmfvxstgdknlvi:50c901dcf2ff6680298686d34fcfd357670093b152e0d9e9ccbc1e61626acf3b@ec2-54-158-247-210.compute-1.amazonaws.com:5432/df6tij44m4urqo'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://kyaykescxecxcs:1a8524f3ff9eb41d7f6e82ded97ae0a38ae8ecd44ea728a41c01538020e11d8b@ec2-54-172-175-251.compute-1.amazonaws.com:5432/dcce74rh9dlm07'
 #Providing_randomstringfor_secretkey
 app.secret_key = 'random string'
 #Initialise The Database
