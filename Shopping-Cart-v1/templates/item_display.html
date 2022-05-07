@@ -1,36 +1,26 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Category: {{categoryName}}</title>
-    <link rel="stylesheet" href={{ url_for('static',
-    filename='resources/css/home.css') }} /> <link rel="stylesheet" href={{
-    url_for('static', filename='resources/css/topStyle.css') }} />
-  </head>
-
+{% extends 'base.html' %} {% block content %} {% include 'navbar.html' %}
   <body>
-    {% extends 'base.html' %} {% block content %} {% include 'navbar.html' %}
-
     <div>
-      <h2>Showing all products of Category {{categoryName}}:</h2>
-      <div class="row">
-        {% for itemData in data %}
+      <h2>{{categoryName}}:</h2>
+      <div class="categories">
+          {% for itemData in data %}
         <table class="display-items">
-          <tr id="productName">
+          <tr>
             {% for row in itemData %}
             <td>{{row[1]}}</td>
             {% endfor %}
           </tr>
-          <tr id="productImage">
+          <tr>
             {% for row in itemData %}
             <td>
               <a href="/productDescription?productId={{row[0]}}">
                 <img src={{ url_for('static', filename='resources/img/' +
-                row[3]) }} id="itemImage" />
+                row[3]) }}/>
               </a>
             </td>
             {% endfor %}
           </tr>
-          <tr id="productPrice">
+          <tr>
             {% for row in itemData %}
             <td>£{{row[2]}}</td>
             {% endfor %}
@@ -51,6 +41,5 @@
 <br />
 <br />
 <br />
-<br />
-<br />
+<br>
 {% endblock %}

@@ -1,3 +1,4 @@
+{% extends 'base.html' %} {% block content %} {% include 'navbar.html' %}
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -6,41 +7,9 @@
 <link rel="stylesheet" href={{ url_for('static', filename='css/topStyle.css') }} />
 </head>
 <body>
-<div id="title">
-	<a href="/">
-		<img id="logo" src= {{ url_for('static', filename='images/logo.png') }} />
-	</a>
-	<form>
-		<input id="searchBox" type="text" name="searchQuery">
-		<input id="searchButton" type="submit" value="Search">
-	</form>
-
-	{% if not login_check %}
-	<div id="signInButton">
-		<a class="link" href="/loginForm">Sign In</a>
-	</div>
-	{% else %}
-	<div class="dropdown">
-		<button class="dropbtn">Hello, <br>{{firstName}}</button>
-		<div class="dropdown-content">
-			<a href="/account/orders">Your orders</a>
-			<a href="/account/profile">Your profile</a>
-			<hr>
-			<a href="/logout">Sign Out</a>
-		</div>
-	</div>
-	{% endif %}
-	<div id="kart">
-		<a class="link" href="/cart">
-			<img src={{url_for('static', filename='images/shoppingCart.png')}} id="cartIcon" />
-			CART {{Item_quantity}}
-		</a>
-	</div>
-</div>
-
   <div class="display">
     <form action="/updateProfile" method="Post">
-      <h1 class="title">Edit profile</h1>
+      <h2 class="title">Edit profile</h2>
 
       <div class="inputContainer">
         <input
@@ -190,7 +159,8 @@
       <input type="submit" class="submitBtn" value="Save" />
     </form>
   </div>
-
+<br>
+<br>
   <style>
     body {
       box-sizing: border-box;
@@ -303,3 +273,4 @@
 </body>
 </html>
 
+{% endblock %}

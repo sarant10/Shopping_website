@@ -1,51 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- <!DOCTYPE html>
-<html>
-  <head>
-    <title>Profile Home</title>
-    <link rel="stylesheet" href={{ url_for('static',
-    filename='resources/css/profileHome.css') }} /> <link rel="stylesheet"
-    href={{ url_for('static', filename='resources/css/topStyle.css') }} />
-  </head>
--->
+
 {% include 'navbar.html' %}
   <body>
-    <div id="title">
-      <a href="/">
-        <img id="logo" src= {{ url_for('static',
-        filename='resources/img/logo.png') }} />
-      </a>
 
-      {% if not login_check %}
-      <div id="signInButton">
-        <a class="link" href="/loginForm">Sign In</a>
-      </div>
-      {% else %}
-      <div class="dropdown">
-        <button class="dropbtn">Hello, <br />{{First_Name}}</button>
-        <div class="dropdown-content">
-          <a href="/account/orders">Your orders</a>
-          <a href="/account/profile">Your profile</a>
-          <hr />
-          <a href="/logout">Sign Out</a>
-        </div>
-      </div>
-      {% endif %}
-      <div id="kart">
-        <a class="link" href="/cart">
-          <img src={{url_for('static', filename='images/shoppingCart.png')}}
-          id="cartIcon" /> CART {{Item_quantity}}
-        </a>
-      </div>
+    <div class="profile">
+      <ul>
+        <a class="btn btn-ghost btn-profile" href="/account/profile/view">View Profile</a><br />
+        <a class="btn btn-ghost btn-profile" href="/account/profile/edit">Edit Profile</a><br />
+        <a class="btn btn-ghost btn-profile" href="/account/profile/changePassword">Change password</a>
+      </ul>     
     </div>
-
-    <div class="display">
-      <a href="/account/profile/view">View Profile</a><br />
-      <a href="/account/profile/edit">Edit Profile</a><br />
-      <a href="/account/profile/changePassword">Change password</a>
-    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
   </body>
 </html>
 {% endblock %}
