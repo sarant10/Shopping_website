@@ -565,6 +565,7 @@ cite img {
 
 input[type='text'],
 input[type='password'],
+input[type='email'],
 select,
 textarea {
   width: 100%;
@@ -591,6 +592,12 @@ input[type='checkbox'] {
 .categories {
   text-align: center;
   padding-bottom: 40px;
+}
+
+table {
+  max-width: 1140px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 td {

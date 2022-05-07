@@ -61,7 +61,10 @@ def root():
         data_cursor.execute('SELECT Cat_Id, item_name FROM categories')
         categoryData = data_cursor.fetchall()
     itemData = parse(itemData)   
-    return render_template('item_home.html', itemData=itemData, login_check=login_check, First_Name=First_Name, Item_quantity=Item_quantity, categoryData=categoryData)
+    if 'email_id' not in session:
+        return render_template('index.html')
+    else:
+        return render_template('item_home.html', itemData=itemData, login_check=login_check, First_Name=First_Name, Item_quantity=Item_quantity, categoryData=categoryData)
 
 @app.route("/add")
 def ad_min():

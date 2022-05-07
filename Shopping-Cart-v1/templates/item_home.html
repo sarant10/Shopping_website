@@ -1,36 +1,33 @@
   {% extends 'base.html' %} {% block content %} {% include 'navbar.html' %}
   <body>
-    <div class="display">
+    <div class="row">
       <div class="displayCategory">
         <h2>Shop by Category:</h2>
         <ul class="categories">
           {% for row in categoryData %}
-
           <a class="btn btn-full" href="/displayCategory?Cat_Id={{row[0]}}"
-            >{{row[1]}}</a
-          >
-
+            >{{row[1]}}</a>
           {% endfor %}
         </ul>
       </div>
-      <div>
+      <div class="row">
         <h2>Items</h2>
         <div class="row">
           {% for data in itemData %}
           <table>
             <tr>
               {% for row in data %}
-              <td>{{row[1]}}</td>
+              <td>
+                <a href="/productDescription?productId={{row[0]}}">
+                  <img src={{ url_for('static', filename='resources/img/' +
+                  row[4]) }} class="items" />
+                </a>
+              </td>
               {% endfor %}
             </tr>
             <tr>
               {% for row in data %}
-              <td>
-                <a href="/productDescription?productId={{row[0]}}">
-                  <img src={{ url_for('static', filename='resources/img/' +
-                  row[4]) }}/>
-                </a>
-              </td>
+              <td>{{row[1]}}</td>
               {% endfor %}
             </tr>
             <tr>
