@@ -9,7 +9,7 @@ UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = set(['jpeg', 'jpg', 'png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-def getLoginDetails():
+def detailed_login():
     with sqlite3.connect('database.db') as data_connect:
         data_cursor = data_connect.cursor()
         if 'email_id' not in session:
@@ -27,7 +27,7 @@ def getLoginDetails():
 
 @app.route("/")
 def root():
-    login_check, First_Name, Item_quantity = getLoginDetails()
+    login_check, First_Name, Item_quantity = detailed_login()
     with sqlite3.connect('database.db') as data_connect:
         data_cursor = data_connect.cursor()
         data_cursor.execute('SELECT productId, item_name, item_cost, item_spec, image, stock FROM products')
@@ -41,7 +41,7 @@ def root():
         return render_template('item_home.html', itemData=itemData, login_check=login_check, First_Name=First_Name, Item_quantity=Item_quantity, categoryData=categoryData)
 
 @app.route("/add")
-def admin():
+def ad_min():
     with sqlite3.connect('database.db') as data_connect:
         data_cursor = data_connect.cursor()
         data_cursor.execute("SELECT Cat_Id, item_name FROM categories")
@@ -104,7 +104,7 @@ def removeItem():
 
 @app.route("/displayCategory")
 def displayCategory():
-        login_check, First_Name, Item_quantity = getLoginDetails()
+        login_check, First_Name, Item_quantity = detailed_login()
         categoryId = request.args.get("Cat_Id")
         with sqlite3.connect('database.db') as data_connect:
             data_cursor = data_connect.cursor()
@@ -119,14 +119,14 @@ def displayCategory():
 def profileHome():
     if 'email_id' not in session:
         return redirect(url_for('root'))
-    login_check, First_Name, Item_quantity = getLoginDetails()
+    login_check, First_Name, Item_quantity = detailed_login()
     return render_template("Home_profile.html", login_check=login_check, First_Name=First_Name, Item_quantity=Item_quantity)
 
 @app.route("/account/profile/edit")
-def editProfile():
+def Profile_edit():
     if 'email_id' not in session:
         return redirect(url_for('root'))
-    login_check, First_Name, Item_quantity = getLoginDetails()
+    login_check, First_Name, Item_quantity = detailed_login()
     with sqlite3.connect('database.db') as data_connect:
         data_cursor = data_connect.cursor()
         data_cursor.execute("SELECT userId, email_id, firstName, lastName, address1, zipcode, city, country, phone FROM users WHERE email_id = ?", (session['email_id'], ))
@@ -185,7 +185,7 @@ def updateProfile():
                     con.rollback()
                     msg = "Error occured"
         con.close()
-        return redirect(url_for('editProfile'))
+        return redirect(url_for('Profile_edit'))
 
 @app.route("/loginForm")
 def loginForm():
@@ -208,7 +208,7 @@ def login():
 
 @app.route("/productDescription")
 def productDescription():
-    login_check, First_Name, Item_quantity = getLoginDetails()
+    login_check, First_Name, Item_quantity = detailed_login()
     productId = request.args.get('productId')
     with sqlite3.connect('database.db') as data_connect:
         data_cursor = data_connect.cursor()
@@ -241,7 +241,7 @@ def addToCart():
 def cart():
     if 'email_id' not in session:
         return redirect(url_for('loginForm'))
-    login_check, First_Name, Item_quantity = getLoginDetails()
+    login_check, First_Name, Item_quantity = detailed_login()
     email_id = session['email_id']
     with sqlite3.connect('database.db') as data_connect:
         data_cursor = data_connect.cursor()
@@ -326,17 +326,17 @@ def allowed_file(filename):
             filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 def parse(data):
-    ans = []
-    i = 0
-    while i < len(data):
-        curr = []
-        for j in range(7):
-            if i >= len(data):
+    result = []
+    x = 0
+    while x < len(data):
+        z = []
+        for y in range(7):
+            if x >= len(data):
                 break
-            curr.append(data[i])
-            i += 1
-        ans.append(curr)
-    return ans
+            z.append(data[x])
+            x += 1
+        result.append(z)
+    return result
 
 if __name__ == '__main__':
     app.run(debug=True)
