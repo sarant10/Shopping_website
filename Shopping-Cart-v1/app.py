@@ -1,5 +1,8 @@
 #importing flask
+#from crypt import methods
+from statistics import mode
 from flask import *
+from flask import Flask,redirect,request
 #Importing_sql_database
 import sqlite3
 #Importing_libr
@@ -7,6 +10,7 @@ import hashlib
 #importing_os
 import os
 from flask_sqlalchemy import SQLAlchemy
+import stripe
 
 
 app = Flask(__name__)
@@ -23,8 +27,30 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'gif','jpeg'])
 #Appconfigurationfor_folderupload
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+stripe.api_key = "sk_test_51Kx7rxGE3jTiQV8u5oCrQ6C8g9b22Q9EGX4dhD7fb2TiSqGx32hnCSAiPXAunx6TXh1wguznKH5RWvO1jsoGI0ME00Er1efnGV"
 
+YOUR_DOMAIN = "http://localhost:5000"
 
+@app.route('/create-checkout-session', methods=['POST'])
+def create_checkout_session():
+    try:
+
+        checkout_session = stripe.checkout.Session.create(
+            success_url=YOUR_DOMAIN + '/index.html',
+            cancel_url=YOUR_DOMAIN + '/Home_profile.html',
+            payment_method_types=["card"],
+            mode="payment",
+            line_items = [
+                {
+                    'price':'price_1Kx7w7GE3jTiQV8uzunhUBFQ',
+                    'quantity':1,    
+                }
+            ]
+        )
+
+    except Exception as e:
+        return str(e)
+    return redirect(checkout_session.url, code=303)    
 #Func_to_fetch_num_of_items_if_the_useris_already_loggedin
 def detailed_login():
     #establising_connection_to_the_database
