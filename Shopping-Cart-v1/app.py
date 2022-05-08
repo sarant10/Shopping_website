@@ -1,5 +1,6 @@
 #importing flask
 #from crypt import methods
+from locale import currency
 from statistics import mode
 from flask import *
 from flask import Flask,redirect,request
@@ -31,23 +32,39 @@ YOUR_DOMAIN = "http://localhost:5000"
 
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
-    try:
-
-        checkout_session = stripe.checkout.Session.create(
-            success_url=YOUR_DOMAIN + '/index.html',
-            cancel_url=YOUR_DOMAIN + '/Home_profile.html',
-            payment_method_types=["card"],
-            mode="payment",
-            line_items = [
-                {
-                    'price':'price_1Kx7w7GE3jTiQV8uzunhUBFQ',
-                    'quantity':1,    
-                }
-            ]
-        )
-
-    except Exception as e:
-        return str(e)
+    email_id = session['email_id']
+    #establishing_connection_to_the_Db
+    with sqlite3.connect('database.db') as data_connect:
+        data_cursor = data_connect.cursor()
+        #Selecting_data_from_customer_table_passing_session_value
+        data_cursor.execute("SELECT userId FROM users WHERE email_id = ?", (email_id, ))
+        #Feching_first_row
+        userId = data_cursor.fetchone()[0]
+        #Selecting_values_from_products_table
+        data_cursor.execute("SELECT products.productId, products.item_name, products.item_cost, products.image FROM products, kart WHERE products.productId = kart.productId AND kart.userId = ?", (userId, ))
+        products = data_cursor.fetchall()
+        #Declaring_total_price_to_zero
+    totalPrice = 0
+    for row in products:
+        #pushing_the_value_to_row_two
+        totalPrice += row[2]
+        #redirecting_to_the_item_cart_page
+    totalPrice = totalPrice * 100
+    Price = int(totalPrice)
+    checkout_session = stripe.checkout.Session.create(
+        success_url=YOUR_DOMAIN + '/success',
+        cancel_url=YOUR_DOMAIN + '/cancel',
+        submit_type='pay',
+        payment_method_types=["card"],
+        #mode="payment",
+        
+        line_items = [{
+            'amount': Price,
+            'name': 'Purchase Items',
+            'currency': 'gbp',
+            'quantity': 1,
+        }]
+    )
     return redirect(checkout_session.url, code=303)    
 #Func_to_fetch_num_of_items_if_the_useris_already_loggedin
 def detailed_login():

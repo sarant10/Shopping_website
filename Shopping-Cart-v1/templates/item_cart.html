@@ -23,7 +23,9 @@
         <div>
 			<br>
           	<span >Subtotal</span> : £{{totalPrice}} <br><br>
-			<a class="btn btn-full" href="/checkout">Proceed to checkout</a>
+			  <form action="/create-checkout-session" method="post">
+      			<button type="submit" class="btn btn-full">Proceed to checkout</button>
+			  </form>
         </div>
       </div>
 		</div>
