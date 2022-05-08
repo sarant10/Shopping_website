@@ -112,6 +112,16 @@ def root():
     else:
         return render_template('item_home.html', itemData=itemData, login_check=login_check, First_Name=First_Name, Item_quantity=Item_quantity, categoryData=categoryData)
 
+#Function_to_Checkout_success
+@app.route("/success")
+def Checkout_success():
+    return render_template('success.html')
+
+#Function_to_login_navigation_page
+@app.route("/cancel")
+def Checkout_cancel():
+    return render_template('cancel.html')
+
 @app.route("/add")
 def ad_min():
     with sqlite3.connect('database.db') as data_connect:

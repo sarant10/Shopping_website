@@ -1,60 +1,108 @@
 <!DOCTYPE html>
 <html>
-    <body>
-        <div class="paymentsuccessful">
-        <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
-          <i class="checkmark">✓</i>
-        </div>
-          <h1>Payment Success</h1> 
-          <p>Your order has been placed<br/> Thank you for your purchase</p>
-          <div class="col span-2-of-2">
-            <form action="/item_home" method="post">
-                <input type="submit" class="submitbutton" value="Continue shopping"/>
-            </form>
-        </div>
-        </div>
-        
-      </body>
-      <style>
-          body {
-        text-align: center;
-        padding: 40px 0;
-        background: #EBF0F5;
-      }
-        h1 {
-          color: #88B04B;
-          font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
-          font-weight: 900;
-          font-size: 40px;
-          margin-bottom: 10px;
-        }
-        p {
-          color: #404F5E;
-          font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
-          font-size:20px;
-          margin: 0;
-        }
-      i {
-        color: #9ABC66;
-        font-size: 100px;
-        line-height: 200px;
-        margin-left:-15px;
-      }
-      .paymentsuccessful {
-        background: white;
-        padding: 60px;
-        border-radius: 4px;
-        box-shadow: 0 2px 3px #C8D0D8;
-        display: inline-block;
-        margin: 0 auto;
-      }
-      .submitbutton {
+  <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='vendors/css/normalize.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='vendors/css/grid.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='vendors/css/ionicons.min.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='vendors/css/animate.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='resources/css/style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='resources/css/queries.css') }}"
+    />
+    <link
+      href="http://fonts.googleapis.com/css?family=Lato:100,300,400,300italic"
+      rel="stylesheet"
+      type="text/css"
+    />
+  <body>
+    <div class="paymentsuccessful">
+      <div
+        style="
+          border-radius: 200px;
+          height: 200px;
+          width: 200px;
+          background: #f8faf5;
+          margin: 0 auto;
+        "
+      >
+        <i class="checkmark">✓</i>
+      </div>
+      <h1>Payment Success</h1>
+      <p>
+        Your order has been placed<br />
+        Thank you for your purchase
+      </p>
+      <div class="col span-2-of-2">
+        <a class="btn btn-full" href="/">Continue shopping</a>
+      </div>
+    </div>
+  </body>
+  <style>
+    body {
+      text-align: center;
+      padding: 40px 0;
+      background: #ebf0f5;
+    }
+    h1 {
+      color: #88b04b;
+      font-family: 'Nunito Sans', 'Helvetica Neue', sans-serif;
+      font-weight: 900;
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #404f5e;
+      font-family: 'Nunito Sans', 'Helvetica Neue', sans-serif;
+      font-size: 20px;
+      margin: 0;
+    }
+    i {
+      color: #9abc66;
+      font-size: 100px;
+      line-height: 200px;
+      margin-left: -15px;
+    }
+    .paymentsuccessful {
+      background: white;
+      padding: 60px;
+      border-radius: 4px;
+      box-shadow: 0 2px 3px #c8d0d8;
+      display: inline-block;
+      margin: 0 auto;
+    }
+    .submitbutton {
       display: block;
       margin: 100px;
       margin-bottom: 0px;
       padding: 15px 30px;
       border: none;
-      background-color: #88B04B;
+      background-color: #88b04b;
       color: white;
       border-radius: 6px;
       cursor: pointer;
@@ -66,6 +114,5 @@
       background-color: #9867c5;
       transform: translateY(-2px);
     }
-      </style>
-  
+  </style>
 </html>
