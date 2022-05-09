@@ -9,9 +9,9 @@
 <table>
 	{% for i in range(6) %}
 	<tr>
-		{% for row in data %}
+		{% for row in output_data %}
 		<td>
-			<a href="/removeItem?productId={{row[0]}}">
+			<a href="/removeItem?prod_number={{row[0]}}">
 			{% if i == 4 %}
 				<img src={{ url_for('static', filename='resources/img/' + row[i]) }} id="itemImage" />
 			{% else %}

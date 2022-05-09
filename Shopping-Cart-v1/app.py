@@ -32,20 +32,20 @@ YOUR_DOMAIN = "http://localhost:5000"
 
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
-    email_id = session['email_id']
+    mail = session['mail']
     #establishing_connection_to_the_Db
-    with sqlite3.connect('database.db') as data_connect:
-        data_cursor = data_connect.cursor()
+    with sqlite3.connect('customerdb.db') as data_connect:
+        connect_data = data_connect.cursor()
         #Selecting_data_from_customer_table_passing_session_value
-        data_cursor.execute("SELECT userId FROM users WHERE email_id = ?", (email_id, ))
+        connect_data.execute("SELECT profile_Id FROM profile WHERE mail = ?", (mail, ))
         #Feching_first_row
-        userId = data_cursor.fetchone()[0]
+        profile_Id = connect_data.fetchone()[0]
         #Selecting_values_from_products_table
-        data_cursor.execute("SELECT products.productId, products.item_name, products.item_cost, products.image FROM products, kart WHERE products.productId = kart.productId AND kart.userId = ?", (userId, ))
-        products = data_cursor.fetchall()
+        connect_data.execute("SELECT catalog_prod.prod_number, catalog_prod.item_name, catalog_prod.item_cost, catalog_prod.image FROM catalog_prod, product_basket WHERE catalog_prod.prod_number = product_basket.prod_number AND product_basket.profile_Id = ?", (profile_Id, ))
+        catalog_prod = connect_data.fetchall()
         #Declaring_total_price_to_zero
     totalPrice = 0
-    for row in products:
+    for row in catalog_prod:
         #pushing_the_value_to_row_two
         totalPrice += row[2]
         #redirecting_to_the_item_cart_page
@@ -69,11 +69,11 @@ def create_checkout_session():
 #Func_to_fetch_num_of_items_if_the_useris_already_loggedin
 def detailed_login():
     #establising_connection_to_the_database
-    with sqlite3.connect('database.db') as data_connect:
+    with sqlite3.connect('customerdb.db') as data_connect:
         #Connection_to_the_data_base
-        data_cursor = data_connect.cursor()
+        connect_data = data_connect.cursor()
         #If_emailid_not_in_session_the_value_returns_false_blank_zero
-        if 'email_id' not in session:
+        if 'mail' not in session:
             #Log_in_will_be_false
             login_check = False
             #First_name_returns_blank
@@ -83,31 +83,31 @@ def detailed_login():
         else:
             login_check = True
             #Selecting_the_user_saved_under_session
-            data_cursor.execute("SELECT userId, firstName FROM users WHERE email_id = ?", (session['email_id'], ))
-            userId, First_Name = data_cursor.fetchone()
+            connect_data.execute("SELECT profile_Id, firstName FROM profile WHERE mail = ?", (session['mail'], ))
+            profile_Id, First_Name = connect_data.fetchone()
             #Fetching_the_count_of_Product_id_from_Kart
-            data_cursor.execute("SELECT count(productId) FROM kart WHERE userId = ?", (userId, ))
+            connect_data.execute("SELECT count(prod_number) FROM product_basket WHERE profile_Id = ?", (profile_Id, ))
             #Fetch_the_First_row_in_the_output
-            Item_quantity = data_cursor.fetchone()[0]
+            Item_quantity = connect_data.fetchone()[0]
             #Closing_the_connection
     data_connect.close()
     #Values_returned_for_above_function
     return (login_check, First_Name, Item_quantity)
 
 @app.route("/")
-def root():
+def main_page():
     #Getting_the_values_from_detailed_login_and_assigning_it_to_these_below_mentioned_values
     login_check, First_Name, Item_quantity = detailed_login()
-    with sqlite3.connect('database.db') as data_connect:
-        data_cursor = data_connect.cursor()
+    with sqlite3.connect('customerdb.db') as data_connect:
+        connect_data = data_connect.cursor()
         #Getting_prod_detail_from_the_table
-        data_cursor.execute('SELECT productId, item_name, item_cost, item_spec, image, stock FROM products')
-        itemData = data_cursor.fetchall()
+        connect_data.execute('SELECT prod_number, item_name, item_cost, item_spec, image, inventory FROM catalog_prod')
+        itemData = connect_data.fetchall()
         #Pulling_Cart_id_Item_name
-        data_cursor.execute('SELECT Cat_Id, item_name FROM categories')
-        categoryData = data_cursor.fetchall()
+        connect_data.execute('SELECT Cat_Id, item_name FROM catalog_div')
+        categoryData = connect_data.fetchall()
     itemData = parse(itemData)   
-    if 'email_id' not in session:
+    if 'mail' not in session:
         return render_template('index.html')
     else:
         return render_template('item_home.html', itemData=itemData, login_check=login_check, First_Name=First_Name, Item_quantity=Item_quantity, categoryData=categoryData)
@@ -122,92 +122,43 @@ def Checkout_success():
 def Checkout_cancel():
     return render_template('cancel.html')
 
-@app.route("/add")
-def ad_min():
-    with sqlite3.connect('database.db') as data_connect:
-        data_cursor = data_connect.cursor()
-        #Gettting_caritems_from_the_table
-        data_cursor.execute("SELECT Cat_Id, item_name FROM categories")
-        categories = data_cursor.fetchall()
-    data_connect.close()
-    #Redirecting_to_the_item_add_html
-    return render_template('item_add.html', categories=categories)
 
 from werkzeug.utils import secure_filename
-
-@app.route("/addItem", methods=["GET", "POST"])
-def addItem():
-    if request.method == "POST":
-        #Getting_the_Item_name_and_assigning_it_to_variable
-        name = request.form['item_name']
-        #Pulling_the_product_cost_and_assigning_it_to_price
-        price = float(request.form['item_cost'])
-        #Pulling_itm_specification_and_assigning_it_to_description
-        description = request.form['item_spec']
-        #Pulling_the_integer_stoc
-        stock = int(request.form['stock'])
-        #Pulling_the_catogoryas_int
-        categoryId = int(request.form['category'])
-
-        #Uploading image procedure
-        image = request.files['image']
-        if image and allowed_file(image.filename):
-            #Secur_the_file_name
-            filename = secure_filename(image.filename)
-            #Upload_path_For_the_image
-            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            #Assign_the_file_to_image
-        imagename = filename
-        with sqlite3.connect('database.db') as data_connect:
-            try:
-                data_cursor = data_connect.cursor()
-                #Inserting_data_into_prod_tabel
-                data_cursor.execute('''INSERT INTO products (item_name, item_cost, item_spec, image, stock, Cat_Id) VALUES (?, ?, ?, ?, ?, ?)''', (name, price, description, imagename, stock, categoryId))
-                data_connect.commit()
-                msg="Successfully Added"
-            except:
-                msg="Error - Try Again!"
-                data_connect.rollback()
-        data_connect.close()
-        #Printing_success_or_error_message
-        print(msg)
-        #Redirect_to_the_root
-        return redirect(url_for('root'))
 
 #Removing_the_prod_from_cart
 @app.route("/remove")
 def remove():
-    with sqlite3.connect('database.db') as data_connect:
-        data_cursor = data_connect.cursor()
+    with sqlite3.connect('customerdb.db') as data_connect:
+        connect_data = data_connect.cursor()
         #Selecting_the_Product_details
-        data_cursor.execute('SELECT productId, item_name, item_cost, item_spec, image, stock FROM products')
-        data = data_cursor.fetchall()
+        connect_data.execute('SELECT prod_number, item_name, item_cost, item_spec, image, inventory FROM catalog_prod')
+        output_data = connect_data.fetchall()
     data_connect.close()
     #Rendering_to_product_remove_page
-    return render_template('product_remove.html', data=data)
+    return render_template('product_remove.html', output_data=output_data)
 
 #Function_to_remove_item
 @app.route("/removeItem")
 def removeItem():
     #Getting_the_product_ID
-    productId = request.args.get('productId')
+    prod_number = request.args.get('prod_number')
     #Connection_to_database
-    with sqlite3.connect('database.db') as data_connect:
+    with sqlite3.connect('customerdb.db') as data_connect:
         try:
-            data_cursor = data_connect.cursor()
+            connect_data = data_connect.cursor()
             #Deleting_the_fetched_prod_id
-            data_cursor.execute('DELETE FROM products WHERE productID = ?', (productId, ))
+            connect_data.execute('DELETE FROM catalog_prod WHERE prod_number = ?', (prod_number, ))
             data_connect.commit()
-            msg = "Successfully Deleted"
+            status_m = "Successfully Deleted"
         except:
             #If_unsuccessfull_rolling_Back_to_the_previous_state
             data_connect.rollback()
-            msg = "Error"
+            status_m = "Error"
     data_connect.close()
     #Printing_success_or_error_message
-    print(msg)
-    #Redirect_to_the_root
-    return redirect(url_for('root'))
+    print(status_m)
+    #Redirect_to_the_main_page
+    return redirect(url_for('main_page'))
 
 #Function_for_display_category
 @app.route("/displayCategory")
@@ -215,26 +166,26 @@ def displayCategory():
         #Getting_the_information_from_detailed_login_page
         login_check, First_Name, Item_quantity = detailed_login()
         #Requesting_the_id
-        categoryId = request.args.get("Cat_Id")
-        with sqlite3.connect('database.db') as data_connect:
-            data_cursor = data_connect.cursor()
+        cat_id = request.args.get("Cat_Id")
+        with sqlite3.connect('customerdb.db') as data_connect:
+            connect_data = data_connect.cursor()
             #Selecting_the_prod_details_from_produ_ct_table
-            data_cursor.execute("SELECT products.productId, products.item_name, products.item_cost, products.image, categories.item_name FROM products, categories WHERE products.Cat_Id = categories.Cat_Id AND categories.Cat_Id = ?", (categoryId, ))
-            data = data_cursor.fetchall()
+            connect_data.execute("SELECT catalog_prod.prod_number, catalog_prod.item_name, catalog_prod.item_cost, catalog_prod.image, catalog_div.item_name FROM catalog_prod, catalog_div WHERE catalog_prod.Cat_Id = catalog_div.Cat_Id AND catalog_div.Cat_Id = ?", (cat_id, ))
+            output_data = connect_data.fetchall()
         data_connect.close()
-        categoryName = data[0][4]
+        catname_id = output_data[0][4]
         #Parsing_the_data
-        data = parse(data)
+        output_data = parse(output_data)
         #returning_the_values_taken_from_prod_table
-        return render_template('item_display.html', data=data, login_check=login_check, First_Name=First_Name, Item_quantity=Item_quantity, categoryName=categoryName)
+        return render_template('item_display.html', output_data=output_data, login_check=login_check, First_Name=First_Name, Item_quantity=Item_quantity, catname_id=catname_id)
 
 #Function_to_write_profile_home
 @app.route("/account/profile")
 def profileHome():
     #Checking_if_the_user_is_not_Logged_in
-    if 'email_id' not in session:
-        #If_not_logged_in_redirecting_to_the_root
-        return redirect(url_for('root'))
+    if 'mail' not in session:
+        #If_not_logged_in_redirecting_to_the_main_page
+        return redirect(url_for('main_page'))
     login_check, First_Name, Item_quantity = detailed_login()
     return render_template("Home_profile.html", login_check=login_check, First_Name=First_Name, Item_quantity=Item_quantity)
 
@@ -242,14 +193,14 @@ def profileHome():
 @app.route("/account/profile/edit")
 def Profile_edit():
     #If_user_not_logged_in
-    if 'email_id' not in session:
-        return redirect(url_for('root'))
+    if 'mail' not in session:
+        return redirect(url_for('main_page'))
     login_check, First_Name, Item_quantity = detailed_login()
-    with sqlite3.connect('database.db') as data_connect:
-        data_cursor = data_connect.cursor()
+    with sqlite3.connect('customerdb.db') as data_connect:
+        connect_data = data_connect.cursor()
         #Fetching_data_from_users_table
-        data_cursor.execute("SELECT userId, email_id, firstName, lastName, address1, zipcode, city, country, phone FROM users WHERE email_id = ?", (session['email_id'], ))
-        profileData = data_cursor.fetchone()
+        connect_data.execute("SELECT profile_Id, mail, firstName, lastName, address1, zipcode, city, country, phone FROM profile WHERE mail = ?", (session['mail'], ))
+        profileData = connect_data.fetchone()
     data_connect.close()
     #Rendering_to_profile_edit_page
     return render_template("Profile edit.html", profileData=profileData, login_check=login_check, First_Name=First_Name, Item_quantity=Item_quantity)
@@ -258,7 +209,7 @@ def Profile_edit():
 @app.route("/account/profile/changePassword", methods=["GET", "POST"])
 def changePassword():
     #Checking_if_the_user_is_still_Logged_in
-    if 'email_id' not in session:
+    if 'mail' not in session:
         return redirect(url_for('loginForm'))
         #Posting_the_method
     if request.method == "POST":
@@ -271,30 +222,30 @@ def changePassword():
         #Encoding_the_new_pass_wrd
         newPassword = hashlib.md5(newPassword.encode()).hexdigest()
         #Establishing_connection_to_the_Db
-        with sqlite3.connect('database.db') as data_connect:
-            data_cursor = data_connect.cursor()
+        with sqlite3.connect('customerdb.db') as data_connect:
+            connect_data = data_connect.cursor()
             #Pulling_userdata_of_logged_in_user
-            data_cursor.execute("SELECT userId, password FROM users WHERE email_id = ?", (session['email_id'], ))
-            userId, password = data_cursor.fetchone()
+            connect_data.execute("SELECT profile_Id, password FROM profile WHERE mail = ?", (session['mail'], ))
+            profile_Id, password = connect_data.fetchone()
             #If_it_is_a_change_the_value_gets_updated
             if (password == oldPassword):
                 try:
                     #queryfor_appending_the_Pass_wrd
-                    data_cursor.execute("UPDATE users SET password = ? WHERE userId = ?", (newPassword, userId))
+                    connect_data.execute("UPDATE profile SET password = ? WHERE profile_Id = ?", (newPassword, profile_Id))
                     data_connect.commit()
                     #commit_confimation_string
-                    msg="Success"
+                    status_m="Success"
                 except:
                     data_connect.rollback()
                     #Commit_failure_string
-                    msg = "Request Failed"
+                    status_m = "Request Failed"
                     #Redirecting_to_pass_wrd_change_html
-                return render_template("Password_change.html", msg=msg)
+                return render_template("Password_change.html", status_m=status_m)
             else:
-                msg = "password entered wrong"
+                status_m = "password entered wrong"
         data_connect.close()
         #Redirecting_to_pass_wrd_change_html
-        return render_template("Password_change.html", msg=msg)
+        return render_template("Password_change.html", status_m=status_m)
     else:
         #Redirecting_to_pass_wrd_change_html
         return render_template("Password_change.html")
@@ -305,7 +256,7 @@ def updateProfile():
     #If_the_request_is_post
     if request.method == 'POST':
         #Fectchng_the_email
-        email_id = request.form['email_id']
+        mail = request.form['mail']
         #Fectchng_the_frst_name
         First_Name = request.form['firstName']
         #Fectchng_the_last_nam
@@ -320,18 +271,18 @@ def updateProfile():
         country = request.form['country']
         #Fectchng_the_redince_telephone
         phone = request.form['phone']
-        with sqlite3.connect('database.db') as data_connect:
+        with sqlite3.connect('customerdb.db') as data_connect:
                 try:
-                    data_cursor = data_connect.cursor()
+                    connect_data = data_connect.cursor()
                     #Query_to_update_the_profile_tabel
-                    data_cursor.execute('UPDATE users SET firstName = ?, lastName = ?, address1 = ?, zipcode = ?, city = ?, country = ?, phone = ? WHERE email_id = ?', (First_Name, lastName, address1, zipcode, city, country, phone, email_id))
+                    connect_data.execute('UPDATE profile SET firstName = ?, lastName = ?, address1 = ?, zipcode = ?, city = ?, country = ?, phone = ? WHERE mail = ?', (First_Name, lastName, address1, zipcode, city, country, phone, mail))
                     data_connect.commit()
                     #Printing_Message
-                    msg = "Successful"
+                    status_m = "Successful"
                 except:
                     #Rolling_back_the_function
                     data_connect.rollback()
-                    msg = "Error - Try Again!"
+                    status_m = "Error - Try Again!"
         data_connect.close()
         #Redirecting_to_profile_edit
         return redirect(url_for('Profile_edit'))
@@ -340,9 +291,9 @@ def updateProfile():
 @app.route("/loginForm")
 def loginForm():
     #if_the_user_still_logged_in
-    if 'email_id' in session:
-        #nagivate_to_the_root
-        return redirect(url_for('root'))
+    if 'mail' in session:
+        #nagivate_to_the_main_page
+        return redirect(url_for('main_page'))
     else:
         #Navigate_to_the_log_in_page
         return render_template('log_in.html', error='')
@@ -352,16 +303,16 @@ def loginForm():
 def login():
     #If_the_Request_method_is_post
     if request.method == 'POST':
-        #Getting_the_email_id_and_pass_wrd_from_front_end
-        email_id = request.form['email_id']
+        #Getting_the_mail_and_pass_wrd_from_front_end
+        mail = request.form['mail']
         #Getting_the_pass_wrd
         password = request.form['password']
         #If_the_validation_is_correct
-        if is_valid(email_id, password):
-            #Assigning_the_email_id_to_the_session
-            session['email_id'] = email_id
-            #Navigating_to_the_root
-            return redirect(url_for('root'))
+        if is_valid(mail, password):
+            #Assigning_the_mail_to_the_session
+            session['mail'] = mail
+            #Navigating_to_the_main_page
+            return redirect(url_for('main_page'))
         else:
             #Printing_error_message
             error = 'Invalid Credentials! Try Again!'
@@ -374,101 +325,78 @@ def productDescription():
     #Fetching_the_detailed_login_values
     login_check, First_Name, Item_quantity = detailed_login()
     #Getting_the_product_number
-    productId = request.args.get('productId')
-    with sqlite3.connect('database.db') as data_connect:
-        data_cursor = data_connect.cursor()
+    prod_number = request.args.get('prod_number')
+    with sqlite3.connect('customerdb.db') as data_connect:
+        connect_data = data_connect.cursor()
         #Selecting_prod_from_stock_table
-        data_cursor.execute('SELECT productId, item_name, item_cost, item_spec, image, stock FROM products WHERE productId = ?', (productId, ))
-        productData = data_cursor.fetchone()
+        connect_data.execute('SELECT prod_number, item_name, item_cost, item_spec, image, inventory FROM catalog_prod WHERE prod_number = ?', (prod_number, ))
+        productData = connect_data.fetchone()
     data_connect.close()
     #Redirecting_to_the_prd_des_page.
-    return render_template("prd_Des.html", data=productData, login_check = login_check, First_Name = First_Name, Item_quantity = Item_quantity)
+    return render_template("prd_Des.html", output_data=productData, login_check = login_check, First_Name = First_Name, Item_quantity = Item_quantity)
 
 #Adding_cart_items
 @app.route("/addToCart")
 #function_to_add_cart
 def addToCart():
     #If_user_not_logged_in
-    if 'email_id' not in session:
+    if 'mail' not in session:
         #Redirect_the_page_to_loginform
         return redirect(url_for('loginForm'))
     else:
-        #fetching_the_productid_data
-        productId = int(request.args.get('productId'))
+        #fetching_the_product_data
+        prod_number = int(request.args.get('prod_number'))
         #Establising_connection_to_the_database.
-        with sqlite3.connect('database.db') as data_connect:
-            data_cursor = data_connect.cursor()
+        with sqlite3.connect('customerdb.db') as data_connect:
+            connect_data = data_connect.cursor()
             #Selecting_user_data_with_the_help_of_session_id
-            data_cursor.execute("SELECT userId FROM users WHERE email_id = ?", (session['email_id'], ))
+            connect_data.execute("SELECT profile_Id FROM profile WHERE mail = ?", (session['mail'], ))
             #Getting_the_first_row
-            userId = data_cursor.fetchone()[0]
+            profile_Id = connect_data.fetchone()[0]
             try:
                 #inserting_values_to_the_cart
-                data_cursor.execute("INSERT INTO kart (userId, productId) VALUES (?, ?)", (userId, productId))
+                connect_data.execute("INSERT INTO product_basket (profile_Id, prod_number) VALUES (?, ?)", (profile_Id, prod_number))
                 data_connect.commit()
                 #Satatus_message
-                msg = "Successfull"
+                status_m = "Successfull"
             except:
                 #function_to_rol_l
                 data_connect.rollback()
                 #Status_message
-                msg = "Error"
+                status_m = "Error"
         #closing_the_connection
         data_connect.close()
-        #Redirecting_to_the_root
-        return redirect(url_for('root'))
+        #Redirecting_to_the_main_page
+        return redirect(url_for('main_page'))
 
 #Function_For_Cart
 @app.route("/cart")
 def cart():
     #if_the_user_not_logged_in
-    if 'email_id' not in session:
+    if 'mail' not in session:
         #redurect_to_lgoin_page
         return redirect(url_for('loginForm'))
         #Getting_data_from_detailed_login
     login_check, First_Name, Item_quantity = detailed_login()
-    #assigning_the_email_id_to_session
-    email_id = session['email_id']
+    #assigning_the_mail_to_session
+    mail = session['mail']
     #establishing_connection_to_the_Db
-    with sqlite3.connect('database.db') as data_connect:
-        data_cursor = data_connect.cursor()
+    with sqlite3.connect('customerdb.db') as data_connect:
+        connect_data = data_connect.cursor()
         #Selecting_data_from_customer_table_passing_session_value
-        data_cursor.execute("SELECT userId FROM users WHERE email_id = ?", (email_id, ))
+        connect_data.execute("SELECT profile_Id FROM profile WHERE mail = ?", (mail, ))
         #Feching_first_row
-        userId = data_cursor.fetchone()[0]
+        profile_Id = connect_data.fetchone()[0]
         #Selecting_values_from_products_table
-        data_cursor.execute("SELECT products.productId, products.item_name, products.item_cost, products.image FROM products, kart WHERE products.productId = kart.productId AND kart.userId = ?", (userId, ))
-        products = data_cursor.fetchall()
+        connect_data.execute("SELECT catalog_prod.prod_number, catalog_prod.item_name, catalog_prod.item_cost, catalog_prod.image FROM catalog_prod, product_basket WHERE catalog_prod.prod_number = product_basket.prod_number AND product_basket.profile_Id = ?", (profile_Id, ))
+        catalog_prod = connect_data.fetchall()
         #Declaring_total_price_to_zero
     totalPrice = 0
-    for row in products:
+    for row in catalog_prod:
         #pushing_the_value_to_row_two
         totalPrice += row[2]
         #redirecting_to_the_item_cart_page
-    return render_template("item_cart.html", products = products, totalPrice=totalPrice, login_check=login_check, First_Name=First_Name, Item_quantity=Item_quantity)
-
-'''
-@app.route('/payment_gateway')
-def index():
-    return render_template('payment.html', key=stripe_keys['publishable_key'])
-
-@app.route('/charge', methods=['POST'])
-totalPrice = cart()
-def charge():
-    # Amount in cents
-    amount = totalPrice
-    customer = stripe.Customer.create(
-        email='customer@example.com',
-        source=request.form['stripeToken']
-    )
-    charge = stripe.Charge.create(
-        customer=customer.id,
-        amount=amount,
-        currency='pounds',
-        description='Shopping Payment'
-    )
-    return render_template('payment_base.html', amount=amount)
-'''
+    return render_template("item_cart.html", catalog_prod = catalog_prod, totalPrice=totalPrice, login_check=login_check, First_Name=First_Name, Item_quantity=Item_quantity)
 
 
 
@@ -476,56 +404,56 @@ def charge():
 @app.route("/removeFromCart")
 def removeFromCart():
     #if_the_user_not_logged_in
-    if 'email_id' not in session:
+    if 'mail' not in session:
         #Redirect_to_log_in_page
         return redirect(url_for('loginForm'))
     #assigning_sesson_to_variable
-    email_id = session['email_id']
+    mail = session['mail']
     #Getting_product_number
-    productId = int(request.args.get('productId'))
+    prod_number = int(request.args.get('prod_number'))
     #establishing_connection
-    with sqlite3.connect('database.db') as data_connect:
-        data_cursor = data_connect.cursor()
+    with sqlite3.connect('customerdb.db') as data_connect:
+        connect_data = data_connect.cursor()
         #Selecting_values_from_profile_table
-        data_cursor.execute("SELECT userId FROM users WHERE email_id = ?", (email_id, ))
+        connect_data.execute("SELECT profile_Id FROM profile WHERE mail = ?", (mail, ))
         #Fetching_the_first_row
-        userId = data_cursor.fetchone()[0]
+        profile_Id = connect_data.fetchone()[0]
         try:
             #Script_to_remove_the_prod_form_basket
-            data_cursor.execute("DELETE FROM kart WHERE userId = ? AND productId = ?", (userId, productId))
+            connect_data.execute("DELETE FROM product_basket WHERE profile_Id = ? AND prod_number = ?", (profile_Id, prod_number))
             data_connect.commit()
             #Satatus_message
-            msg = "Removed"
+            status_m = "Removed"
         except:
             #Function_to_roll_back
             data_connect.rollback()
             #Status_message
-            msg = "Error - Try Again!"
+            status_m = "Error - Try Again!"
     data_connect.close()
     #Redirecting_to_rot_page
-    return redirect(url_for('root'))
+    return redirect(url_for('main_page'))
 
 #Function_to_log_out
 @app.route("/logout")
 def logout():
     #If_sesson_is_null
-    session.pop('email_id', None)
+    session.pop('mail', None)
     #Redirect_to_rot_page
-    return redirect(url_for('root'))
+    return redirect(url_for('main_page'))
 
 #Function_to_validation_user_name_and_password
-def is_valid(email_id, password):
+def is_valid(mail, password):
     #Connection_to_the_Databse
-    data_connect = sqlite3.connect('database.db')
-    data_cursor = data_connect.cursor()
+    data_connect = sqlite3.connect('customerdb.db')
+    connect_data = data_connect.cursor()
     #Getting_the_user_credentials_to_the_table
-    data_cursor.execute('SELECT email_id, password FROM users')
+    connect_data.execute('SELECT mail, password FROM profile')
     #Getting_all_the_record
-    data = data_cursor.fetchall()
+    output_data = connect_data.fetchall()
     #Checking_all_the_credentials_in_talbe
-    for row in data:
+    for row in output_data:
         #If_the_credentials_are_correct_then_the_loop_returns_true
-        if row[0] == email_id and row[1] == hashlib.md5(password.encode()).hexdigest():
+        if row[0] == mail and row[1] == hashlib.md5(password.encode()).hexdigest():
             #value_returns_positive
             return True
     return False
@@ -538,7 +466,7 @@ def register():
         #Getting_the_data_from_front_end_for_pass_word    
         password = request.form['password']
         #Getting_the_data_from_front_end_for_gmail
-        email_id = request.form['email_id']
+        mail = request.form['mail']
         #Getting_the_data_from_front_end_for_user_fore_name
         First_Name = request.form['firstName']
         #Getting_the_data_from_front_end_for_user_last_name
@@ -554,24 +482,24 @@ def register():
         #Getting_the_data_from_front_end_for_user_contract
         phone = request.form['phone']
         #Establishing_connection_to_the_database
-        with sqlite3.connect('database.db') as data_connect:
+        with sqlite3.connect('customerdb.db') as data_connect:
             try:
-                data_cursor = data_connect.cursor()
+                connect_data = data_connect.cursor()
                 #Inserting_data_into_profile_table
-                data_cursor.execute('INSERT INTO users (password, email_id, firstName, lastName, address1, zipcode, city, country, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', (hashlib.md5(password.encode()).hexdigest(), email_id, First_Name, lastName, address1, zipcode, city, country, phone))
+                connect_data.execute('INSERT INTO profile (password, mail, firstName, lastName, address1, zipcode, city, country, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', (hashlib.md5(password.encode()).hexdigest(), mail, First_Name, lastName, address1, zipcode, city, country, phone))
                 #Commting_the_connection
                 data_connect.commit()
                 #status_message
-                msg = "Registration_successfull"
+                status_m = "Registration_successfull"
             except:
                 #Rolling_back_if_request
                 data_connect.rollback()
                 #status_message
-                msg = "Unsuccessfull - Try Again!"
+                status_m = "Unsuccessfull - Try Again!"
                 #Closing_the_connection
         data_connect.close()
         #Redirecting_to_the_log_in_page
-        return render_template("log_in.html", error=msg)
+        return render_template("log_in.html", error=status_m)
 
 #Function_to_Register_form
 @app.route("/registerationForm")
@@ -584,18 +512,18 @@ def allowed_file(filename):
     return '.' in filename and \
             filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-def parse(data):
+def parse(output_data):
     result = []
     x = 0
-    while x < len(data):
+    while x < len(output_data):
         z = []
         for y in range(7):
-            if x >= len(data):
+            if x >= len(output_data):
                 break
-            z.append(data[x])
+            z.append(output_data[x])
             x += 1
         result.append(z)
     return result
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,host='0.0.0.0')

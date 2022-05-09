@@ -3,22 +3,22 @@
 <body>
   <div class="image">
     <div>
-      <h2>{{data[1]}}</h2>
+      <h2>{{output_data[1]}}</h2>
     </div>
     <div>
-      <img src={{url_for('static', filename='resources/img/'+data[4]) }}/>
+      <img src={{url_for('static', filename='resources/img/'+output_data[4]) }}/>
     </div>
 
     <div>
-      <p>Name: {{data[1]}}</p>
-      <p>Price: {{data[2]}}</p>
-      <p>Stock: {{data[3]}}</p>
-      <p>Description: {{data[3]}}</p>
+      <p>Name: {{output_data[1]}}</p>
+      <p>Price: {{output_data[2]}}</p>
+      <p>Stock: {{output_data[3]}}</p>
+      <p>Description: {{output_data[3]}}</p>
     </div>
     <div>
       <a
         class="btn btn-ghost btn-product"
-        href="/addToCart?productId={{request.args.get('productId')}}"
+        href="/addToCart?prod_number={{request.args.get('prod_number')}}"
         >Add to Cart</a
       >
     </div>

@@ -4,7 +4,7 @@
 		<div class="image">
 			<h2>Shopping Cart</h2>
       		<div class="categories">
-        	{% for row in products %}
+        	{% for row in catalog_prod %}
         	<div class="row">
           		<hr/>
           		<div>
@@ -15,7 +15,7 @@
             		<span>{{row[1]}}</span><br />
             		In stock<br />
 					£{{row[2]}}<br>
-            		<a href="/removeFromCart?productId={{row[0]}}">Remove</a> <br><br>
+            		<a href="/removeFromCart?prod_number={{row[0]}}">Remove</a> <br><br>
           		</div>
         	</div>
         {% endfor %}

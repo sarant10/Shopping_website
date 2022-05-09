@@ -1,253 +1,37 @@
-<!DOCTYPE html>
-<html>
-  <div class="signup">
-    <form method="/register" class="form">
-      <h1 class="title">Sign up</h1>
+<form action="/register" method="POST" onsubmit="return validate()">
 
-      <div class="inputContainer">
-        <input
-          type="text"
-          placeholder="Enter Firstname"
-          class="input"
-          name="firstname"
-          required
-        />
-        <label for="firstname" class="label"><b>Firstname</b></label>
-      </div>
+  <p>email_id: <input type="email_id" name="mail"></p>
 
-      <div class="inputContainer">
-        <input
-          type="text"
-          placeholder="Enter Lastname"
-          class="input"
-          name="lastname"
-          required
-        />
-        <label for="lastname" class="label"><b>Lastname</b></label>
-      </div>
 
-      <div class="inputContainer">
-        <input
-          type="text"
-          placeholder="Enter Email"
-          class="input"
-          name="email"
-          required
-        />
-        <label for="email" class="label"><b>Email</b></label>
-      </div>
 
-      <div class="inputContainer">
-        <input
-          type="text"
-          placeholder="Enter Address1"
-          class="input"
-          name="address1"
-          required
-        />
-        <label for="address1" class="label"><b>Address1</b></label>
-      </div>
+  <p>Password: <input type="password" name="password" id="password" required=""></p>
 
-      <div class="inputContainer">
-        <input
-          type="text"
-          placeholder="Enter Address2"
-          class="input"
-          name="address2"
-          required
-        />
-        <label for="address2" class="label"><b>Address2</b></label>
-      </div>
 
-      <div class="inputContainer">
-        <input
-          type="text"
-          placeholder="Enter Zipcode"
-          class="input"
-          name="zipcode"
-          required
-        />
-        <label for="zipcode" class="label"><b>Zipcode</b></label>
-      </div>
 
-      <div class="inputContainer">
-        <input
-          type="text"
-          placeholder="Enter City"
-          class="input"
-          name="city"
-          required
-        />
-        <label for="city" class="label"><b>City</b></label>
-      </div>
+  <p>Confirm Password: <input type="password" name="cpassword" id="cpassword"></p>
 
-      <div class="inputContainer">
-        <input
-          type="text"
-          placeholder="Enter State"
-          class="input"
-          name="state"
-          required
-        />
-        <label for="state" class="label"><b>State</b></label>
-      </div>
 
-      <div class="inputContainer">
-        <input
-          type="text"
-          placeholder="Enter Country"
-          class="input"
-          name="country"
-          required
-        />
-        <label for="country" class="label"><b>Country</b></label>
-      </div>
 
-      <div class="inputContainer">
-        <input
-          type="text"
-          placeholder="Enter Phone"
-          class="input"
-          name="phone"
-          required
-        />
-        <label for="phone" class="label"><b>Phone</b></label>
-      </div>
+  <p>First Name: <input type="text" name="firstName"></p>
 
-      <div class="inputContainer">
-        <input
-          type="password"
-          placeholder="Enter Password"
-          class="input"
-          name="psw"
-          required
-        />
-        <label for="psw" class="label"><b>Password</b></label>
-      </div>
+  <p>Last Name: <input type="text" name="lastName"></p>
 
-      <div class="inputContainer">
-        <input
-          type="password"
-          placeholder="Repeat Password"
-          class="input"
-          name="confirmpassword"
-          required
-        />
-        <label for="confirmpassword" class="label"
-          ><b>Confirm Password</b></label
-        >
-      </div>
-      <div class="col span-2-of-2">
-        <input type="submit" class="submitBtn" value="Sign up" />
-        <a href="/loginForm">Log in!</a>
-      </div>
-    </form>
-  </div>
+  <p>Address Line 1: <input type="text" name="address1"></p>
 
-  <style>
-    body {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      background-color: white;
-      font-family: 'lato', sans-serif;
-    }
+  <p>Zipcode: <input type="text" name="zipcode"></p>
 
-    .signup {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+  <p>City: <input type="text" name="city"></p>
 
-    .form {
-      background-color: white;
-      width: 400px;
-      border-radius: 8px;
-      padding: 20px 40px;
-      box-shadow: 0 10px 25px rgba(92, 99, 105, 0.2);
-    }
+  <p>Country: <input type="text" name="country"></p>
 
-    .title {
-      font-size: 50px;
-      margin-bottom: 50px;
-    }
+  <p>Phone Number: <input type="text" name="phone"></p>
 
-    .inputContainer {
-      position: relative;
-      height: 45px;
-      width: 90%;
-      margin-bottom: 17px;
-    }
 
-    .input {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      height: 100%;
-      width: 100%;
-      border: 1px solid #dadce0;
-      border-radius: 7px;
-      font-size: 16px;
-      padding: 0 20px;
-      outline: none;
-      background: none;
-      z-index: 1;
-    }
 
-    ::placeholder {
-      color: transparent;
-    }
+  <p><input type="submit" value="Register"></p>
 
-    .label {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      padding: 0 4px;
-      background-color: white;
-      color: #dadce0;
-      font-size: 16px;
-      transition: 0.5s;
-      z-index: 0;
-    }
 
-    .submitBtn {
-      display: block;
-      margin-left: auto;
-      padding: 15px 30px;
-      border: none;
-      background-color: purple;
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-      margin-top: 30px;
-    }
 
-    .submitBtn:hover {
-      background-color: #9867c5;
-      transform: translateY(-2px);
-    }
+  <a href="/loginForm">Login here</a>
 
-    .input:focus + .label {
-      top: -7px;
-      left: 3px;
-      z-index: 10;
-      font-size: 14px;
-      font-weight: 600;
-      color: purple;
-    }
-
-    .input:focus {
-      border: 2px solid purple;
-    }
-
-    .input:not(:placeholder-shown) + .label {
-      top: -7px;
-      left: 3px;
-      z-index: 10;
-      font-size: 14px;
-      font-weight: 600;
-    }
-  </style>
-</html>
+</form>
