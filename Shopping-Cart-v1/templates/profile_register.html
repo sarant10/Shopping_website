@@ -1,37 +1,42 @@
-<form action="/register" method="POST" onsubmit="return validate()">
+{% extends 'base.html' %} {% block content %}{% include 'navbar.html' %}
+<div class="row">
+  <br />
 
-  <p>email_id: <input type="email_id" name="mail"></p>
+  <h2>Register</h2>
+  <form action="/register" method="POST" onsubmit="return validate()">
+    <p>Email <input type="email" name="mail" /></p>
 
+    <p>
+      Password
+      <input type="password" name="password" id="password" required="" />
+    </p>
 
+    <p>
+      Confirm Password
+      <input type="password" name="cpassword" id="cpassword" />
+    </p>
 
-  <p>Password: <input type="password" name="password" id="password" required=""></p>
+    <p>First Name <input type="text" name="firstName" /></p>
 
+    <p>Last Name <input type="text" name="lastName" /></p>
 
+    <p>Address Line 1 <input type="text" name="address1" /></p>
 
-  <p>Confirm Password: <input type="password" name="cpassword" id="cpassword"></p>
+    <p>Zipcode <input type="text" name="zipcode" /></p>
 
+    <p>City <input type="text" name="city" /></p>
 
+    <p>Country <input type="text" name="country" /></p>
 
-  <p>First Name: <input type="text" name="firstName"></p>
+    <p>Phone Number <input type="text" name="phone" /></p>
+    <br />
+    <div class="row">
+      <p><input type="submit" value="Register" /></p>
+      <a href="/loginForm">Login here</a>
+    </div>
 
-  <p>Last Name: <input type="text" name="lastName"></p>
+    <br />
+  </form>
+</div>
 
-  <p>Address Line 1: <input type="text" name="address1"></p>
-
-  <p>Zipcode: <input type="text" name="zipcode"></p>
-
-  <p>City: <input type="text" name="city"></p>
-
-  <p>Country: <input type="text" name="country"></p>
-
-  <p>Phone Number: <input type="text" name="phone"></p>
-
-
-
-  <p><input type="submit" value="Register"></p>
-
-
-
-  <a href="/loginForm">Login here</a>
-
-</form>
+{% endblock %}
